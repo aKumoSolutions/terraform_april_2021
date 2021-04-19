@@ -8,3 +8,10 @@ variable "instance_type" {
   description = "this is an instance type"
 }
 
+variable "web_sg_tcp_ports" {
+  type = list(string)
+}
+
+variable "web_sg_tcp_ports_cidr" {
+  type = list(string)
+}

@@ -1,30 +1,17 @@
 resource "aws_security_group" "first_sg" {
   name        = "web"
   description = "this is for a web server"
-
-  ingress {
-    description = "http"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress {
-    description = "ssh"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   tags = {
     Name = "first_sg"
   }
 }
+resource "aws_security_group_rule" "web_ingress" {
+  count = 3 # the value is 3 because "web_sg_tcp_ports" list has 3 values.
+  type = "ingress"
+  protocol = "tcp"
+  security_group_id = aws_security_group.first_sg.id
+  from_port = element(var.web_sg_tcp_ports, count.index)
+  to_port   = element(var.web_sg_tcp_ports, count.index)
+  cidr_blocks = [element(var.web_sg_tcp_ports_cidr, count.index)]
+}
+
