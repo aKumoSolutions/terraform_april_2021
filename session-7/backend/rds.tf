@@ -8,8 +8,10 @@ resource "aws_db_instance" "rds" {
   name                 = "wordpress"
   username             = "admin"
   password             = random_password.password.result
-  skip_final_snapshot  = true
-  final_snapshot_identifier = 
+  skip_final_snapshot  = var.snapshot # false
+  final_snapshot_identifier = var.snapshot == true ? null : "${var.env}-snapshot"
   vpc_security_group_ids = []
-  publicly_accessible  = false
+  publicly_accessible  = var.env == "dev" ? true : false
 }
+
+
