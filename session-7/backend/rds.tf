@@ -1,5 +1,5 @@
 resource "aws_db_instance" "rds" {
-  allocated_storage    = 
+  allocated_storage    = 10
   storage_type         = "gp2"
   engine               = "mysql"
   engine_version       = "5.7"
@@ -7,6 +7,9 @@ resource "aws_db_instance" "rds" {
   identifier           = "${var.env}-instance"
   name                 = "wordpress"
   username             = "admin"
-  password             = 
+  password             = random_password.password.result
   skip_final_snapshot  = true
+  final_snapshot_identifier = 
+  vpc_security_group_ids = []
+  publicly_accessible  = false
 }
