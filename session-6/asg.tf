@@ -16,6 +16,7 @@ resource "aws_autoscaling_group" "webserver-sg" {
   }
 }
 
+
 resource "aws_autoscaling_attachment" "webserver_attachment" {
   autoscaling_group_name = aws_autoscaling_group.webserver-sg.id
   alb_target_group_arn   = aws_lb_target_group.webserver_tg.arn
