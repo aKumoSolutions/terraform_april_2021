@@ -12,6 +12,7 @@ resource "aws_db_instance" "rds" {
   final_snapshot_identifier = var.snapshot == true ? null : "${var.env}-snapshot"
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
   publicly_accessible  = var.env == "dev" ? true : false
+  tags = local.common_tags
 }
 resource "aws_security_group" "rds_sg" {
   name        = "${var.env}-rds-sg"

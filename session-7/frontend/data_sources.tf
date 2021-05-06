@@ -27,3 +27,12 @@ data "template_file" "webserver" {
     env = var.env
   }
 }
+
+data "terraform_remote_state" "rds" {
+  backend = "s3"
+  config = {
+    bucket = "aws-session-terraform-april"
+    key    = "session-7/backend.tfstate"
+    region = "us-east-2"
+  }
+}

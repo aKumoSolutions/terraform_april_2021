@@ -19,6 +19,14 @@ resource "aws_security_group_rule" "http_from_lb" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.webserver_sg.id
 }
+resource "aws_security_group_rule" "mysql" {
+  type              = "ingress"
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+  source_security_group_id = data.terraform_remote_state.rds.outputs.rds_security_group_id
+  security_group_id = aws_security_group.webserver_sg.id
+}
 resource "aws_security_group_rule" "webserver_egress" {
   type              = "egress"
   from_port         = 0
