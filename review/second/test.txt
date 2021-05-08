@@ -1,0 +1,1 @@
+This is an object that I'm really trying to upload to S3 bucket.
