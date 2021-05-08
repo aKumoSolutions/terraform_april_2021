@@ -9,7 +9,7 @@ resource "aws_db_instance" "rds" {
   username             = "admin"
   password             = random_password.password.result
   skip_final_snapshot  = var.snapshot # false
-  final_snapshot_identifier = var.snapshot == true ? null : "${var.env}-snapshot"
+  final_snapshot_identifier = var.snapshot == true ? null : "${var.env}-test-snapshot"
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
   publicly_accessible  = var.env == "dev" ? true : false
   tags = local.common_tags
