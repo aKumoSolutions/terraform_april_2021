@@ -1,10 +1,38 @@
 ############### EC2 ################
 resource "aws_instance" "web_server" {
-  ami                    = data.aws_ami.amazon_linux_2.image_id # data sources reference
-  instance_type          = var.instance_type                    # variable
-  vpc_security_group_ids = [aws_security_group.web_server_sg.id]     # resources reference
-  key_name               = aws_key_pair.terraform_key.key_name      # resources reference
-  tags = local.common_tags
+  ami                    = data.aws_ami.amazon_linux_2.image_id  # data sources reference
+  instance_type          = var.instance_type                     # variable
+  vpc_security_group_ids = [aws_security_group.web_server_sg.id] # resources reference
+  key_name               = aws_key_pair.terraform_key.key_name   # resources reference
+  tags                   = local.common_tags
+
+  provisioner "file" {
+    source      = "index.html"
+    destination = "/tmp/index.html"
+
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      host        = self.public_ip
+      private_key = file("~/.ssh/id_rsa")
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo yum install httpd -y",
+      "sudo cp /tmp/index.html /var/www/html/index.html",
+      "sudo systemctl enable httpd",
+      "sudo systemctl start httpd",
+      "sudo touch test.txt"
+    ]
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      host        = self.public_ip
+      private_key = file("~/.ssh/id_rsa")
+    }
+  }
 }
 ############### Key Pair ###################
 resource "aws_key_pair" "terraform_key" {
