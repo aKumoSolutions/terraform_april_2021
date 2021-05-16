@@ -1,6 +1,6 @@
 locals {
-    tags = {
-        Name = "${var.env}-main"
-        Environment = var.env
-    }
+  tags = {
+    Name        = "${var.env}-main"
+    Environment = var.env
+  }
 }
