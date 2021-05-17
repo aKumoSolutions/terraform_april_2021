@@ -14,6 +14,6 @@ resource "aws_s3_bucket_public_access_block" "main" {
   restrict_public_buckets = true
 
 }
-output "name" {
+output "s3_name" {
   value = aws_s3_bucket.main.id
 }
