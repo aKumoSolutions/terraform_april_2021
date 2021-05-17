@@ -17,6 +17,10 @@ module "s3_module_virginia" {
     }
 }
 
-output "s3_module_bucket_name" {
-    value = module.s3_module.id
+output "s3_name" {
+    value = module.s3_module.s3_name
+}
+
+output "s3_name_virgina" {
+    value = module.s3_module_virginia.s3_name
 }
